@@ -11,7 +11,9 @@ const verifyLoginMiddleware = async (req, res, next) => {
         req.userRole = decoded.userRole
         next()
     } catch (err) {
-        res.status(200).send("Failed To Verify Login");
+        res.status(200).send({
+            msg: "Failed To Verify Login"
+        });
     }
 }
 

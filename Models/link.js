@@ -3,6 +3,13 @@ const mongoose = require("mongoose");
 
 // Init Schema
 const linkSchema = mongoose.Schema({
+    linkId: {
+        type: String,
+        required: true,
+        unique: true,
+        dropDups: true,
+        index: true,
+    },
     originalLink: {
         type: String,
         required: true,

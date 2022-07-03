@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 // Internal Module
 const customerAuthRoute = require("./Routes/customerAuth.route.js");
 const adminAuthRoute = require("./Routes/adminAuth.route.js");
+const linkRoute = require("./Routes/link.route.js");
 
 
 // Initialize App
@@ -26,5 +27,8 @@ app.use("/auth/customer", customerAuthRoute)
 
 // Customer Auth Routes
 app.use("/auth/admin", adminAuthRoute)
+
+// Link Routes
+app.use("/link", linkRoute)
 
 module.exports = app
