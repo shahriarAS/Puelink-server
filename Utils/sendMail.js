@@ -42,7 +42,7 @@ const sendMail = async (email, randString, username, verifyFor, role) => {
         htmlMail = emailFormat(username, title, url)
       }
       else {
-        url = `${process.env.CLIENT_DOMAIN}/customer/verify/${username}/${randString}`
+        url = `${process.env.CLIENT_DOMAIN}/auth/customer/verify/${username}/${randString}`
         title = "Verify Your Account"
         htmlMail = emailFormat(username, title, url)
       }
@@ -53,7 +53,7 @@ const sendMail = async (email, randString, username, verifyFor, role) => {
         htmlMail = emailFormat(username, title, url)
       }
       else{
-        const url = `${process.env.CLIENT_DOMAIN}/customer/reset/${username}/${randString}`
+        const url = `${process.env.CLIENT_DOMAIN}/auth/customer/reset/${username}/${randString}`
         title = "Reset Your Password"
         htmlMail = emailFormat(username, title, url)
       }

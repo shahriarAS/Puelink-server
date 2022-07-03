@@ -4,7 +4,8 @@ const dotenv = require("dotenv");
 const express = require("express");
 const mongoose = require("mongoose");
 // Internal Module
-const userRoute = require("./Routes/user.route.js");
+const customerAuthRoute = require("./Routes/customerAuth.route.js");
+const adminAuthRoute = require("./Routes/adminAuth.route.js");
 
 
 // Initialize App
@@ -20,7 +21,10 @@ mongoose.connect(process.env.MONGO_DB_CONNECT, { useUnifiedTopology: true, useNe
     console.log("MongoDB Started")
 })
 
-// Main Routes
-app.use("/user", userRoute)
+// Customer Auth Routes
+app.use("/auth/customer", customerAuthRoute)
+
+// Customer Auth Routes
+app.use("/auth/admin", adminAuthRoute)
 
 module.exports = app
