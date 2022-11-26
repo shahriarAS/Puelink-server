@@ -3,12 +3,26 @@ const request = require("supertest")
 const app = require("../../app.js")
 
 describe("Link Controller Test", () => {
+
+    test("GET /link/all-view", (done) => {
+        request(app)
+            .get("/link/all-view")
+            .expect(200)
+            .then((res) => {
+                debug("/link/all-view ", res.body)
+                done()
+            })
+            .catch(err => {
+                done(err)
+            })
+    })
+
     test("GET /link/view/:linkId", (done) => {
         request(app)
             .get("/link/view/l55l0wa1wxn8ljgxd4e")
             .expect(200)
             .then((res) => {
-                debug("/link/view/:linkId ", res.body.msg)
+                debug("/link/view/:linkId ", res.body)
                 done()
             })
             .catch(err => {

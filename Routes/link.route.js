@@ -1,10 +1,12 @@
 const express = require("express")
 
-const { linkView, linkAdd, linkUpdate, linkDelete } = require("../Controllers/link.controller.js")
+const { linkView, linkAdd, linkUpdate, linkDelete, userAllLinkView } = require("../Controllers/link.controller.js")
 const verifyLinkAccess = require("../Middlewares/verifyLinkAccess.middleware.js")
 const verifyLoginMiddleware = require("../Middlewares/verifyLogin.middleware")
 
 const linkRoute = express.Router()
+
+linkRoute.get("/all-view", verifyLoginMiddleware, userAllLinkView)
 
 linkRoute.get("/view/:linkId", verifyLoginMiddleware, verifyLinkAccess, linkView)
 

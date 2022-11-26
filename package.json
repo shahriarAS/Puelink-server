@@ -14,6 +14,7 @@
     "googleapis": "^104.0.0",
     "jest": "^28.1.2",
     "jsonwebtoken": "^8.5.1",
+    "jw-paginate": "^1.0.4",
     "mongodb": "^4.7.0",
     "mongoose": "^6.4.2",
     "nodemailer": "^6.7.6",

@@ -1,15 +1,22 @@
 const { debug } = require("console");
 const request = require("supertest");
-const app = require("../../app.js")
+const app = require("../../app.js");
+const userModel = require("../../Models/user.js");
 
 describe("Customer Controller Test", () => {
+    let username = "shahriar"
+    let email = "shahriar@gmail.com"
+    let password = "mynamshovon"
+    let token = ""
+    let randString = ""
+
     test("POST /auth/customer/register", (done) => {
         request(app)
             .post("/auth/customer/register")
             .send({
-                username: "shahriar",
-                email: "shahriar@gmail.com",
-                password: "mynamshovon"
+                username: username,
+                email: email,
+                password: password
             })
             .expect(200)
             .then((res) => {
@@ -22,9 +29,12 @@ describe("Customer Controller Test", () => {
             })
     });
 
+    let currentUser = await userModel.find({ username: username })
+    randString = currentUser.randString
+
     test("POST /auth/customer/verify-email/:username/:randString", (done) => {
         request(app)
-            .post("/auth/customer/verify-email/shahriar/l55byymxffanblwcw4")
+            .post(`/auth/customer/verify-email/${username}/${randString}`)
             .expect(200)
             .then((res) => {
                 debug("/auth/customer/verify-email/:username/:randString ", res.body.msg)
@@ -40,12 +50,13 @@ describe("Customer Controller Test", () => {
         request(app)
             .post("/auth/customer/login")
             .send({
-                usernameOrEmail: "shahriar",
-                password: "mynamshovon"
+                usernameOrEmail: username,
+                password: password
             })
             .expect(200)
             .then((res) => {
                 debug("/auth/customer/login ", res.body.msg)
+                token = res.body.token
                 done()
             }
             )
@@ -57,7 +68,7 @@ describe("Customer Controller Test", () => {
     test("GET /auth/customer/view", (done) => {
         request(app)
             .get("/auth/customer/view")
-            .set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNoYWhyaWFyIiwidXNlcklEIjoiNjJjMTk1MjNjYzU0ZWMyNGYzOGFiZTEzIiwidXNlclJvbGUiOiJjdXN0b21lciIsImlhdCI6MTY1Njg1ODg0MCwiZXhwIjoxNjU4MTU0ODQwfQ.8cmubkrWf7CZC4SzQpgh-2bfi1-Vvg7eeXGxawDzzwY")
+            .set("Authorization", `Bearer ${token}`)
             .expect(200)
             .then((res) => {
                 debug("/auth/customer/view ", res.body.msg)
@@ -73,7 +84,7 @@ describe("Customer Controller Test", () => {
         request(app)
             .post("/auth/customer/forgot-pass")
             .send({
-                email: "shahriar@gmail.com"
+                email: email
             })
             .expect(200)
             .then((res) => {
@@ -86,9 +97,13 @@ describe("Customer Controller Test", () => {
             })
     });
 
+
+    currentUser = await userModel.find({ username: username })
+    randString = currentUser.randString
+
     test("POST /auth/customer/reset-pass/:username/:randString", (done) => {
         request(app)
-            .post("/auth/customer/reset-pass/shahriar/l55fnce7vv1s1pt9hh")
+            .post(`/auth/customer/reset-pass/${username}/${randString}`)
             .send({
                 newPassword: "mynamshovon2"
             })
@@ -106,7 +121,7 @@ describe("Customer Controller Test", () => {
     test("POST /auth/customer/change-pass", (done) => {
         request(app)
             .post("/auth/customer/change-pass")
-            .set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNoYWhyaWFyIiwidXNlcklEIjoiNjJjMTk1MjNjYzU0ZWMyNGYzOGFiZTEzIiwidXNlclJvbGUiOiJjdXN0b21lciIsImlhdCI6MTY1Njg1ODg0MCwiZXhwIjoxNjU4MTU0ODQwfQ.8cmubkrWf7CZC4SzQpgh-2bfi1-Vvg7eeXGxawDzzwY")
+            .set("Authorization", `Bearer ${token}`)
             .send({
                 oldPassword: "mynamshovon2",
                 newPassword: "mynamshovon3"
@@ -125,7 +140,7 @@ describe("Customer Controller Test", () => {
     test("POST /auth/customer/delete-user", (done) => {
         request(app)
             .post("/auth/customer/delete-user")
-            .set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNoYWhyaWFyIiwidXNlcklEIjoiNjJjMTk1MjNjYzU0ZWMyNGYzOGFiZTEzIiwidXNlclJvbGUiOiJjdXN0b21lciIsImlhdCI6MTY1Njg1ODg0MCwiZXhwIjoxNjU4MTU0ODQwfQ.8cmubkrWf7CZC4SzQpgh-2bfi1-Vvg7eeXGxawDzzwY")
+            .set("Authorization", `Bearer ${token}`)
             .send({
                 password: "mynamshovon3",
             })
